@@ -1,0 +1,48 @@
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+.dome {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dome-image {
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+  background: #000;
+}
+
+.blackout-layer {
+  position: absolute;
+  inset: 0;
+  background: #000;
+}
+
+.recovery-text,
+.orphan p {
+  color: #3a4258;
+  font-size: 18px;
+  letter-spacing: 0.1em;
+}
+
+.image-failed {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 20px;
+}
+
+.no-page {
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 20px;
+}

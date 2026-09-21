@@ -1,0 +1,32 @@
+# 穹顶讲解：纯前端站点 + 一次性验收服务。
+# WEB_PORT 可覆盖（默认 8080）：
+#   WEB_PORT=9090 docker compose up --build
+services:
+  web:
+    build: .
+    image: dome-presenter:latest
+    environment:
+      WEB_PORT: ${WEB_PORT:-8080}
+    ports:
+      - "${WEB_PORT:-8080}:${WEB_PORT:-8080}"
+    # 仅静态文件服务，无后端、无外调。
+    command: ["sh", "-c", "npx vite preview --host 0.0.0.0 --port ${WEB_PORT}"]
+
+  # 一次性验收：单元测试 + 构建 + 多窗口 Playwright，退出码即验收结果。
+  verify:
+    image: dome-presenter:latest
+    build: .
+    depends_on:
+      web:
+        condition: service_started
+    environment:
+      E2E_BASE_URL: http://web:${WEB_PORT:-8080}
+      DOCKER: "1"
+    command:
+      - sh
+      - -c
+      - |
+        set -e
+        npx vitest run
+        npm run build
+        npx playwright test
